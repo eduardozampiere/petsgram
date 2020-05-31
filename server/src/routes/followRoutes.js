@@ -5,9 +5,9 @@ const FollowController = require('../controllers/FollowController');
 const authMiddleware = require('../middlewares/auth');
 
 routes.post('/', authMiddleware, FollowController.follow);
-routes.post('/unfollow', authMiddleware, FollowController.unfollow);
+routes.delete('/unfollow', authMiddleware, FollowController.unfollow);
 routes.get('/followerToApprove', authMiddleware, FollowController.getFollowerToApprove);
-routes.post('/approve', authMiddleware, FollowController.approve);
+routes.put('/approve', authMiddleware, FollowController.approve);
 routes.get('/getFollows', authMiddleware, FollowController.getFollows);
 routes.get('/getFollowers', authMiddleware, FollowController.getFollowers);
 

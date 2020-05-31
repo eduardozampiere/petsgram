@@ -4,8 +4,12 @@ const Follow = require('../models/Follow');
 
 class Controller{
 	async create(req, res){
-        const user = req.userId;
-		const image = req.file.filename;
+		const user = req.userId;
+
+		const image = req.files.map(i => {
+			return i.filename;
+		})
+
 		const {description} = req.body;
 		
 		const post = await Post.create({
