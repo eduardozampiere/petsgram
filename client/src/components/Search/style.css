@@ -1,0 +1,43 @@
+.results{
+    width: calc(100% - 28px);
+    background-color: #fff;
+    /* border: solid 1px; */
+    border: solid 1px;
+    max-height: 400px;
+    overflow: auto;
+    padding: 13px;
+    border-radius: 3px;
+    display: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+.result-user{
+    display: flex;
+}
+
+.result-user{
+    text-decoration: none;
+}
+
+.result-user img, .result-user .noPhoto{
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+}
+
+.result-userName{
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: #232323;
+}
+
+.result-name{
+    font-size: 14px;
+    margin-left: 10px;
+    color: #888;
+
+}

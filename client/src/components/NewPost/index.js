@@ -17,7 +17,7 @@ function NewPost() {
 		const formdata = new FormData(form);
 		setPosting(true);
 		try{
-			const r = await API.post.create(formdata);
+			await API.post.create(formdata);
 			document.location.reload();
 		}
 		catch(err){

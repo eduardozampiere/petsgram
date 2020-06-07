@@ -1,0 +1,11 @@
+.post-content{
+    width: calc(100% - 360px);
+    margin-left: 180px;
+}
+
+@media(max-width: 767px){
+    .post-content{
+        width: calc(100%);
+        margin-left: 0px;
+    }   
+}

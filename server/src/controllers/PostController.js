@@ -34,6 +34,18 @@ class Controller{
 		res.send(posts);
 	}
 
+	async getById(req, res){
+		const {id} = req.params;
+		try{
+			const post = await Post.findById(id).populate('user');
+			return res.send(post);
+		}
+		catch(err){
+			return res.status(500).send({msg: 'Invalid post'});
+		}
+
+	}
+
 	async feed(req, res){
 		const user = req.userId;
 		const {page} = req.params;
@@ -44,7 +56,8 @@ class Controller{
 		const options = {
 			sort: {_id: -1},
 			populate: 'user',
-			page
+			page,
+			limit: 10
 		}
 
 		const feed = await Post.paginate({

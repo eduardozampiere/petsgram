@@ -7,6 +7,7 @@ const Signup = lazy(() => import('../components/Signup'));
 const ResetPass = lazy(() => import('../components/ResetPass'));
 
 const Content = lazy(() => import('../components/Content'));
+const PostContent = lazy(() => import('../components/PostContent'));
 const Home = lazy(() => import('../components/Home'));
 const Profile = lazy(() => import('../components/Profile'));
 const Edit = lazy(() => import('../components/Edit'));
@@ -32,7 +33,7 @@ export default function(){
 
 					<Route path="/post/:id" exact>
 						<Content>
-							{/* <Home /> */}
+							<PostContent />
 						</Content>
 					</Route>
 

@@ -9,8 +9,6 @@ function Profile() {
 	const [user, setUser] = useState(null);
 	const [found, setFound] = useState(true);
 
-	const [posts, setPosts] = useState([]);
-
 	const [numPosts, setNumPosts] = useState(0);
 	const [numFollows, setNumFollows] = useState(0);
 	const [numFollowers, setNumFollowers] = useState(0);
@@ -28,7 +26,6 @@ function Profile() {
 				document.title = `${r.data.name} | @${r.data.userName}`;
 				
 				const postsResponse = await API.post.byUser(r.data._id);
-				
 				setNumPosts(postsResponse.data.totalDocs);
 	
 				const followResponse = await API.follow.follows(username);
@@ -54,7 +51,7 @@ function Profile() {
 
 	async function handleFollow(event, user){
 		try{
-			const r = await API.follow.followUser(user);
+			await API.follow.followUser(user);
 			setFollowClick(true);
 		}
 		catch(err){
@@ -65,7 +62,7 @@ function Profile() {
 
 	async function handleUnfollow(event, user){
 		try{
-			const r = await API.follow.unfollowUser(user);
+			await API.follow.unfollowUser(user);
 			setFollowClick(false);
 		}
 		catch(err){
@@ -74,8 +71,6 @@ function Profile() {
 	}
 
 	function followButton(){
-		let text = '';
-		
 		if(followStatus === 0) return <button onClick={(e) => handleFollow(e, user._id)}>Seguir</button>;
 		else if(followStatus === -1) return <button onClick={(e) => handleFollow(e, user._id)}>Seguir de volta</button>;
 		else if(followStatus === 1) return <button className="unfollow" onClick={(e) => handleUnfollow(e, user._id)}>Deixar de seguir</button>;

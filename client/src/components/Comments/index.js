@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 // import { Container } from './styles';
 import './style.css';
@@ -9,16 +9,38 @@ function Comments(props) {
 	const [comment, setComment] = useState('');
 	const [commentsList, setCommentsList] = useState([]);
 	const post = props.post;
+	const createdAt = props.createdAt;
+	const loadComments = useCallback( 
+		async (page=1) => {
+			const r = await API.comment.get(post, page);
+			if(r.data.comments.docs) setCommentsList(c => [...c, ...r.data.comments.docs]);
+	}, [post]
+	);
 
 	useEffect(() => {
 		(async () => {
 			await loadComments();
 		})();
-	}, []);
+	}, [loadComments]);
 
-	async function loadComments(page=1){
-		const r = await API.comment.get(post, page);
-		if(r.data.comments.docs) setCommentsList([...commentsList, ...r.data.comments.docs]);
+	function formatDate(date){
+		const d = new Date(date);
+		const now = new Date();
+		const timeDate = d.getTime();
+		const timeNow = now.getTime();
+
+		const secDiff = (timeNow - timeDate) / 1000;
+		if(secDiff < 60) return `${parseInt(secDiff)} segundos`;
+
+		if(secDiff < 3600) return `${parseInt(secDiff/60)} minutos`;
+
+		if(secDiff < 86400) return `${parseInt(secDiff/3600)} horas`;
+
+		if(secDiff < 2592000) return `${parseInt(secDiff/86400)} dias`;
+
+		if(secDiff < 31104000) return `${parseInt(secDiff/2592000)} meses`;
+		
+		return `${parseInt(secDiff/31104000)} anos`;
 	}
 
 	function drawComments(){
@@ -53,7 +75,9 @@ function Comments(props) {
 			<div className="comments-comments">
 				{drawComments()}
 			</div>
-
+			<div>
+				<time>Há {formatDate(createdAt)}</time>
+			</div>
 			<div className="comments-input">
 				<form onSubmit={handleSubmit}>
 					<input type="text" value={comment} placeholder="Digite seu comentario" onChange={(e) => setComment(e.currentTarget.value)}/>

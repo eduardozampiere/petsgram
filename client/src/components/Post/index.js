@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
-// import { Container } from './styles';
+
 import "./style.css";
 import API from '../../api';
 
@@ -14,11 +14,10 @@ function Post(props){
 	const [showImage, setShowImage] = useState(0);
 	const description = props.data.description;
 	const likesList = props.data.likes;
-	const createdAt = props.data.createdAt;
 	const username = props.data.user.userName;
 	const profilePhoto = props.data.user.profilePhoto;
 	const postId = props.data._id;
-
+	const createdAt = props.data.createdAt;
 	const userId = props.user._id;
 	const [liked, setLiked] = useState(false);
 
@@ -28,7 +27,7 @@ function Post(props){
 			if(p !== -1) setLiked(true)
 			else setLiked(false);
 		})();
-	}, [])
+	}, [likesList, userId]);
 
 	function renderImages(){
 		return (
@@ -39,7 +38,7 @@ function Post(props){
 					<div className="pre" onClick={previousImage}><IoIosArrowBack /></div>
 				</>
 				: '')}
-				<img src={API.image(images[showImage])}/>
+				<img alt="post" src={API.image(images[showImage])}/>
 			</>
 		)
 	}
@@ -87,7 +86,7 @@ function Post(props){
 	}
 
 	async function handleLike(){
-		const response = await API.post.like(postId);
+		await API.post.like(postId);
 		const p = likesList.indexOf(userId);
 		if(liked){
 			likesList.splice(p, 1);
@@ -104,7 +103,7 @@ function Post(props){
 		<div className="post">
 			<div className="post-header">
 				<div className="post-profile-photo">
-					<img src={API.image(profilePhoto)}/>
+					<img alt="profile" src={API.image(profilePhoto)}/>
 				</div>
 				<div className="post-author-user">
 					<Link to={`/${username}`}>{username}</Link>
@@ -148,7 +147,7 @@ function Post(props){
 			</div>
 
 			<div className="post-footer">
-				<Comments post={postId} />
+				<Comments post={postId} createdAt={createdAt}/>
 			</div>
 		</div>
 	);

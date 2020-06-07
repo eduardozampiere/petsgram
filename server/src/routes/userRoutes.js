@@ -8,6 +8,7 @@ const UserController = require('../controllers/UserController');
 
 routes.get('/get', authMiddleware, UserController.getMyUser);
 routes.get('/get/:user', UserController.get);
+routes.get('/find/:user', UserController.find);
 routes.post('/create', UserController.create);
 routes.post('/login', UserController.login);
 routes.delete('/delete', authMiddleware, UserController.delete);

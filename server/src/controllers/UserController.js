@@ -25,6 +25,34 @@ class Controller{
         }
     }
 
+    async find(req, res){
+        const {user:find} = req.params;
+
+        try{
+            const user = await User.find({
+                $or: [
+                    {
+                        name: {
+                            $regex: find,
+                            $options: 'i'
+                        }
+                    },
+                    {
+                        userName: {
+                            $regex: find,
+                            $options: 'i'
+                        }
+                    }
+                ]
+            });
+            return res.send(user);
+        }
+         catch(err){
+             console.log(err);
+             return res.status(500).send({msg: 'Server error'});
+         }
+    }
+
     async get(req, res){
         const {user: userName} = req.params;
         try{

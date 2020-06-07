@@ -27,6 +27,10 @@ const API = {
             return await axios.get(`${config.BASE_URL}/post/get/${user}/${page}`);
         },
 
+        byId: async (id) => {
+            return await axios.get(`${config.BASE_URL}/post/${id}`);
+        },
+
         create: async (form) => {
             const con = {
                 headers: {
@@ -109,6 +113,10 @@ const API = {
 
         changePass: async (userName, token, password) => {
             return await axios.post(`${config.BASE_URL}/user/change-pass`, {userName, token, password});
+        },
+
+        find: async (value) => {
+            return await axios.get(`${config.BASE_URL}/user/find/${value}`);
         },
 
         getUser: async (user) => {

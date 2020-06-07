@@ -13,5 +13,6 @@ routes.get('/get/:user/:page?', PostController.get);
 routes.post('/like', authMiddleware, PostController.like);
 routes.put('/edit', authMiddleware, PostController.edit);
 routes.delete('/delete', authMiddleware, PostController.delete);
+routes.get('/:id/', PostController.getById);
 
 module.exports = routes;
