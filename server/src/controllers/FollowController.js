@@ -5,7 +5,6 @@ class Controller{
 	async follow(req, res){
 		const id = req.userId;
 		const {id: followId} = req.body;
-
 		if(id === followId) return res.status(500).send({msg: 'You cannot follow yourself'});
 
 		const follow = await Follow.findOne({user: id, follow: followId});		
@@ -58,15 +57,45 @@ class Controller{
 	}
 
 	async getFollows(req, res){
-		const user = req.userId;
-		const follows = await Follow.paginate({user});
-		res.send(follows)
+		const {username} = req.params;
+		try{
+			const user = await User.findOne({userName: username});
+			
+			if(!user) res.status(400).send({msg: 'User not found'});			
+			
+			const follows = await Follow.paginate({user: user.id});
+
+			const alreadyFollow = await Follow.findOne({
+				user: user.id,
+				follow: req.userId
+			})
+			res.send({follows, followMe: (alreadyFollow ? true : false)});
+		}
+		catch(err){
+			console.log(err);
+			res.status(500).send({msg: 'Internal Error'});
+		}
 	}
 
 	async getFollowers(req, res){
-		const user = req.userId;
-		const followers = await Follow.paginate({follow: user});
-		res.send(followers)
+		const {username} = req.params;
+		try{
+			const user = await User.findOne({userName: username});
+			if(!user) res.status(400).send({msg: 'User not found'});			
+			
+			const follows = await Follow.paginate({follow: user.id});
+
+			const alreadyFollow = await Follow.findOne({
+				follow: user.id,
+				user: req.userId
+			})
+
+			res.send({follows, iFollow: (alreadyFollow ? true : false)})
+		}
+		catch(err){
+			console.log(err);
+			res.status(500).send({msg: 'Internal Error'});
+		}
 	}
 
 	async getFollowerToApprove(req, res){

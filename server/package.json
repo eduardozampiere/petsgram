@@ -4,13 +4,15 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js --ignore '__tests__/*'",
+    "test": "jest --watchAll"
   },
   "author": "Eduardo Zampiere",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.16",
@@ -20,5 +22,8 @@
     "multer": "^1.4.2",
     "nodemailer": "^6.4.8",
     "nodemailer-express-handlebars": "^4.0.0"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1"
   }
 }

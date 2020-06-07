@@ -7,4 +7,5 @@ route.use('/follow', require('./followRoutes'));
 route.use('/comment', require('./commentRoutes'));
 
 
+
 module.exports = route;

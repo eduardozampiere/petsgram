@@ -25,25 +25,41 @@ class Controller{
 	}
 
 	async get(req, res){
+		const {user, page} = req.params;
+		const posts = await Post.paginate({user: user}, {
+			sort: {_id: -1},
+			page
+		});
 
+		res.send(posts);
 	}
 
 	async feed(req, res){
 		const user = req.userId;
-		//followList = [.....idUsers];
+		const {page} = req.params;
+		console.log(page);
 		const follow = await Follow.find({user});
 		const follows = follow.map(r => r.follow);
 		
 		const options = {
 			sort: {_id: -1},
-			populate: 'user'
+			populate: 'user',
+			page
 		}
 
 		const feed = await Post.paginate({
-			user: {
-				$in: follows
-			}
+			$or: [
+				{
+					user: {
+						$in: follows
+					}
+				},
+				{
+					user: req.userId
+				}
+			]
 		}, options);
+
 		res.send(feed);
 	}
 
@@ -84,7 +100,7 @@ class Controller{
 
 	async delete(req, res){
 		const user = req.userId;
-		const {id, description} = req.body;
+		const {id} = req.body;
 		
 		const post = await Post.findById(id);
 		if(!post) return res.status(500).send({msg: "Invalid post"});

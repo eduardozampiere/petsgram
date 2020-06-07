@@ -1,0 +1,17 @@
+.main-col-1{
+    width: 60%;
+}
+
+.main-col-2{
+    width: 40%;
+}
+
+@media (max-width: 767px){
+    .main-col-1{
+        width: calc(100%);
+    }
+
+    .main-col-2{
+        display: none;
+    }
+}

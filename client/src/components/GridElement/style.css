@@ -1,0 +1,20 @@
+.grid-element{
+    max-width: 290px;
+    max-height: 290px;
+    margin-top: 20px;
+}
+
+.grid-element img{
+    width: 100%;
+    image-rendering: optimizeSpeed;
+}
+
+@media (max-width: 767px){
+    .grid-element{
+        max-width: 290px;
+        max-height: 290px;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-top: 10px;
+    } 
+}

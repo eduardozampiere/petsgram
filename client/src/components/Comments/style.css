@@ -1,0 +1,46 @@
+.comment-item{
+    margin-left: 14px;
+}
+
+.comment-item a{
+    color: #232323;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.comment-item span{
+    font-size: 14px;
+    color: #333;
+}
+
+.comments-comments{
+    max-height: 100px;
+    overflow: auto;
+}
+
+.comments-input form{
+    margin-top: 10px;
+    display: flex;
+    border-top: 1px #dbdbdb solid;
+}
+
+.comments-input form input{
+    border: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    outline: none;
+    width: calc(100% - 80px);
+}
+
+.comments-input form button{
+    height: 50px;
+    border: none;
+    background-color: #fff;
+    outline: none;
+    width: 80px;
+    color: #0095f6;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+}

@@ -1,0 +1,11 @@
+Tarefas:
+    ☐ Retornar usuário pelo username
+    ☐ Retornar usuário pelo token jwt
+    ☐ Criar usuário novo
+    ☐ Fazer login
+        ☐ Autenticação com token jwt
+    ☐ Apagar usuário
+    ☐ Editar dados do usuário
+    ☐ Fazer upload da foto do perfil
+    ☐ Criar token para troca de senha
+    ☐ Fazer mudança de senha

@@ -1,0 +1,93 @@
+.profile-container{
+    width: calc(100% - 360px);
+    margin-left: 200px;
+}
+
+
+.profile-header{
+    /* border: solid 1px; */
+    display: flex;
+
+}
+
+.profile-header img, .profile-header .noPhoto{
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 100%;
+}
+
+.profile-profile{
+    /* border: solid 1px blue; */
+    margin-left: 20px;
+    width: 100%;
+    text-align: left;
+    padding-left: 30px;
+    padding-top: 10px;
+    color: #333;
+}
+
+.profile-user{
+    display: flex;
+}
+
+.profile-user a{
+    color: #333;
+    background-color: transparent;
+}
+
+.profile-user h2{
+    margin: 0;
+}
+
+.profile-user svg{
+    margin: 4px;
+}
+
+.profile-user button{
+    background-color: #0095f6;
+    border: solid 1px #0095f6;
+    color: #fefefe;
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.profile-user button.unfollow{
+    background-color: #df5432;
+    border: solid 1px #df5432;
+}
+
+.profile-info{
+    display: flex;
+    margin-top: 30px;
+    /* border: solid 1px red; */
+    justify-content: space-around;
+    margin-right: 150px;
+}
+
+.profile-name h5{
+    font-weight: bold;
+}
+
+.profile-info .profile-info-item{
+
+}
+
+.profile-info .profile-info-item span{
+    padding-left: 5px;
+}
+
+
+@media (max-width: 767px){
+    .profile-container{
+        width: 100%;
+        margin-left: 0px;   
+    }
+}

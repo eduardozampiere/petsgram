@@ -8,7 +8,8 @@ const authMiddleware = require('../middlewares/auth');
 
 
 routes.post('/create', authMiddleware, multer(multerConfig).array('image[]', 10), PostController.create);
-routes.get('/feed', authMiddleware, PostController.feed);
+routes.get('/feed/:page?', authMiddleware, PostController.feed);
+routes.get('/get/:user/:page?', PostController.get);
 routes.post('/like', authMiddleware, PostController.like);
 routes.put('/edit', authMiddleware, PostController.edit);
 routes.delete('/delete', authMiddleware, PostController.delete);

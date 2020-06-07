@@ -7,28 +7,28 @@ class Controller{
     async create(req, res){
         const user = req.userId;
         const { post:idPost, comment} = req.body;
-
         const post = await Post.findById(idPost);
         if(!post) return res.status(500).send({msg: "Invalid post"});
         
         const author = await User.findById(post.user);
         if(!author) return res.status(500).send({msg: "Invalid user"});
-
+        
         if(author.closeProfile){
             if(author._id.toString() !== user){
                 const follow = await Follow.findOne({user, follow: author, approved: true});
                 if(!follow) return res.status(500).send({msg: "Unauthorized"});
             }
         }
-
+        
         const c = await Comment.create({
             user,
             post,
             comment
         });
 
-        return res.send(c);
-
+        const commentPopulated = await c.populate('user').execPopulate();
+        
+        return res.send(commentPopulated);
     }
 
     async edit(req, res){
@@ -78,13 +78,20 @@ class Controller{
     }
 
     async get(req, res){
-        const {idPost} = req.params;
+        const {idPost, page} = req.params;
         const post = await Post.findById(idPost);
         if(!post) return res.status(500).send({msg: 'Invalid post'});
 
-        const comments = await Comment.find({
+        const options = {
+            sort: {_id: -1},
+            limit: 5,
+            page,
+            populate: 'user'
+        }
+
+        const comments = await Comment.paginate({
             post: idPost
-        }).sort({_id: -1});
+        }, options);
         return res.send({comments});
     }
 

@@ -1,0 +1,115 @@
+.edit-profile{
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+}
+
+.edit-profile .edit-header{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.edit-header form {
+    display: none;
+}
+
+.edit-header-1-col{
+    width: 25%;
+    /* padding-left: 100px; */
+    text-align: right;
+    margin-right: 10px;
+}
+
+.edit-header-2-col{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.edit-header-2-col label{
+    color: #0095f6;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.edit-header .edit-header-2-col span{
+    font-size: 20px;
+}
+.edit-body .edit-header-2-col span{
+    font-size: 13px;
+    color: #888;
+}
+
+.edit-header img, .edit-header .noPhoto{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    float: right;
+
+}
+
+.edit-body form > div{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+.edit-body label{
+    display: block;
+    margin-top: 6px;
+}
+
+.edit-body input, .edit-body textarea{
+    border: solid 1px #dbdbdb;
+    border-radius: 3px;
+    color: #262626;
+    padding: 0 10px;
+    font-size: 16px;
+    height: 32px;
+}
+
+button{
+    background-color: #0095f6;
+    border: solid 1px #0095f6;
+    color: #fefefe;
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+    width: 65px;
+    height: 30px;
+}
+
+@media (max-width: 767px){
+    .edit-body form > div{
+        flex-direction: column;  
+    }
+
+    .edit-body input, .edit-body textarea{
+        margin-left: 10px;
+        width: 100%;
+    }
+
+    .edit-header-1-col{
+        text-align: left;
+        margin-left: 10px;
+        width: auto;
+    }
+
+    .edit-header-2-col{
+        width: auto;
+    }
+
+    .edit-body .edit-header-2-col span{
+        margin-left: 10px;
+    }
+
+    button{
+        margin-left: 10px;
+    }
+}

@@ -1,0 +1,13 @@
+div.feed{
+    width: calc(100% - 180px);
+    margin-top: 20px;
+    margin-left: 180px;
+}
+
+@media (max-width: 767px){
+    div.feed{
+        width: 90%;
+        margin-left: 5%;
+        border: none;
+    }
+}

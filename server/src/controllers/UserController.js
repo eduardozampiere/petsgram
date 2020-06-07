@@ -11,34 +11,74 @@ function generateToken(params = {} ){
 }
 
 class Controller{
+
+    async getMyUser(req, res){
+        const userId = req.userId;
+        try{
+            const user = await User.findById(userId);
+            if(user) return res.send(user);
+            
+            return res.status(400).send({msg: 'Invalid user', tokenError: true})
+        }
+        catch(err){
+            return res.status(500).send({msg: 'Server error'})
+        }
+    }
+
+    async get(req, res){
+        const {user: userName} = req.params;
+        try{
+            const user = await User.findOne({
+                userName: userName
+            });
+    
+            if(!user){
+                return res.status(400).send({msg: 'User not found'});
+            }
+    
+            return res.send(user);
+        }
+        catch(err){
+            res.status(500).send({msg: 'Server error'});
+        }
+    }
+
     async create(req, res){
         const data = req.body;
         const error = [];
-
+        
         if(!data.name) error.push({msg: "Invalid name"});
         if(!data.email) error.push({msg: "Invalid email"});
         if(!data.userName) error.push({msg: "Invalid username"});
         if(!data.password) error.push({msg: "Invalid password"});
         
+        if(/(^edit$|\/)/.test(data.userName)) error.push({msg: "Invalid username"});
+
+        data.userName = data.userName.split(" ").join('');
+
         if(error.length > 0){
             return res.status(500).send(error);
         }
+        try{
 
-        if( await User.findOne({
-            $or: [
-                {email: data.email},
-                {userName: data.userName}
-            ]
-        })){
-            return res.status(500).send({msg: 'Already exists a user with this credentials'})
+            if( await User.findOne({
+                $or: [
+                    {email: data.email},
+                    {userName: data.userName}
+                ]
+            })){
+                return res.status(500).send({msg: 'Already exists a user with this credentials'})
+            }
+    
+            data.password = await bcrypt.hash(data.password, 10);
+    
+            const user = await User.create(data);
+            let token = generateToken({id: user.id});
+            return res.send({user, token});
         }
-
-        data.password = await bcrypt.hash(data.password, 10);
-
-        const user = await User.create(data);
-        let token = generateToken({id: user.id});
-
-        return res.send({user, token});
+        catch(err){
+            return res.status(500).send({msg: 'Internal error'});
+        }
     }
 
     async login(req, res){
@@ -69,29 +109,39 @@ class Controller{
         console.log(req.userId);
         if(req.userId !== req.body.id) return res.status(400).send({msg: 'Invalid token'})
         
-        await User.deleteOne({id: req.userId});
-
-        return res.send({ok: true});
-        
+        try{
+            await User.deleteOne({id: req.userId});
+            return res.send({ok: true});
+        }
+        catch(err){
+            return res.status(500).send({msg: 'Internal error'});
+        }
     }
 
     async edit(req, res){
-        if(req.userId !== req.body.id) return res.status(400).send({msg: 'Invalid token'})
         const data = req.body;
-        if(!data.id) return res.status(400).send({msg: 'Invalid user'});
+        if(!req.userId) return res.status(400).send({msg: 'Invalid user'});
+        try{            
+            const userAux = await User.findOne({userName: data.userName});
+            if(userAux){
+                if(userAux.id !== req.userId){
+                    return res.status(500).send({msg: 'Your chosen username already exists'})            
+                }
+            }
 
-        data.id = undefined;
-        const user = await User.findByIdAndUpdate(req.userId, data, {new: true});
+            const user = await User.findByIdAndUpdate(req.userId, data, {new: true});
+            
+            return res.send(user);
+        }catch(error){
+            return res.status(500).send({msg: 'Verify your username ou email'})
+        }
 
-        res.send(user);
     }
 
     async uploadProfile(req, res){
         const id = req.userId;
 		const image = req.file.filename;
-        console.log(id);
         const user = await User.findByIdAndUpdate(req.userId, {profilePhoto: image}, {new: true});
-
 
         res.send(user);
     }
