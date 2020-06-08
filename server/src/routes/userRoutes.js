@@ -7,6 +7,7 @@ const routes = express.Router();
 const UserController = require('../controllers/UserController');
 
 routes.get('/get', authMiddleware, UserController.getMyUser);
+routes.get('/sugestions', UserController.sugestions);
 routes.get('/get/:user', UserController.get);
 routes.get('/find/:user', UserController.find);
 routes.post('/create', UserController.create);

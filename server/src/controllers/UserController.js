@@ -3,14 +3,39 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 const mailer = require('../modules/mailer');
-const User = require('../models/User');
 const config = require('../config/jwt.json');
+
+const User = require('../models/User');
+const Post = require('../models/Post');
+const Follow = require('../models/Follow');
 
 function generateToken(params = {} ){
     return jwt.sign(params, config.secret,{ expiresIn: 86400})
 }
 
 class Controller{
+
+    async sugestions(req, res){
+        const x = "5edd1cee7616d0126c24c204";
+        const arrLikeSamePosts = (await Post.find({
+            likes: x
+        }).populate('likes')).map(r => r.likes.filter(l => l.id !== x));
+        
+        const occurs = {};
+
+        for(let post of arrLikeSamePosts){
+            for(let user of post){
+                if(!occurs[user.id]){
+                    occurs[user.id] = {user, qtd: 0};
+                }
+                occurs[user.id].qtd += 1;
+            }
+        }
+        
+        res.send(occurs);
+
+
+    }
 
     async getMyUser(req, res){
         const userId = req.userId;
