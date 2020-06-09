@@ -16,10 +16,14 @@ function generateToken(params = {} ){
 class Controller{
 
     async sugestions(req, res){
-        const x = "5edd1cee7616d0126c24c204";
+        const x = req.userId;
+        const myFollows = (await Follow.find({user: x})).map(r => r.follow.toString());
+
         const arrLikeSamePosts = (await Post.find({
-            likes: x
-        }).populate('likes')).map(r => r.likes.filter(l => l.id !== x));
+            likes: x,
+        }).populate('likes')).map(r => r.likes.filter(l => {
+            return (l.id !== x && myFollows.indexOf(l.id) === -1)
+        } ));
         
         const occurs = {};
 
@@ -31,10 +35,40 @@ class Controller{
                 occurs[user.id].qtd += 1;
             }
         }
+
+        const arrFollowSameProfiles = (await Follow.find({
+            follow: {
+                $in: [...myFollows, x]
+            },
+            $and: [
+                {
+                    user: {
+                        $nin: myFollows
+                    }
+                },
+                {
+                    user: {
+                        $ne: x
+                    }
+                }
+            ]
+        }).populate('user'));
         
-        res.send(occurs);
+        for(let follow of arrFollowSameProfiles){
+            if(!occurs[follow.user.id]){
+                occurs[follow.user.id] = {user: follow.user, qtd: 0};
+            }
+            occurs[follow.user.id].qtd += 5;
+        }
+        
 
+        const sortOccurs = Object.values(occurs).sort((a, b) => {
+            if(a.qtd < b.qtd) return 1;
+            if(a.qtd > b.qtd) return -1;
+            return 0;
+        }).slice(0, 5);
 
+        res.send(sortOccurs);
     }
 
     async getMyUser(req, res){

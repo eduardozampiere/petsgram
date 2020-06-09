@@ -156,6 +156,15 @@ const API = {
             }
             return await axios.put(`${config.BASE_URL}/user/edit`, data, con);
         },
+
+        sugestions: async () => {
+            const con = {
+                headers: {
+                    auth: 'BEARER ' + localStorage.getItem("@petsgram-token")       
+                }
+            }
+            return await axios.get(`${config.BASE_URL}/user/sugestions`, con);
+        }
     }
 }
 

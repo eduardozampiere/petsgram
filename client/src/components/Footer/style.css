@@ -10,17 +10,24 @@ footer{
     padding-left: 20px;
 }
 
+.footer-image a{
+    background-color: transparent;
+}
+
 .footer-image img, .footer-image .noPhoto{
     width: 56px;
     height: 56px;
     border-radius: 100%;
     margin-right: 15px;
+    display: inline-block;
 }
 
-.footer-profile-username{
+.footer-profile-username a{
     font-weight: bold;
     color: #232323;
     font-size: 15px;
+    margin: 0;
+    background-color: transparent;
     margin-top: 10px;
 }
 
@@ -39,5 +46,39 @@ footer{
 }
 
 .footer-footer a{
+    background-color: transparent;
+}
 
+.footer-body{
+    margin-top: 25px;
+    margin-left: 30px;
+}
+
+.footer-body h2{
+    font-size: 16px;
+    color: #999
+}
+
+.sugestion{
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.sugestion-image img, .sugestion-image .noPhoto{
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    display: inline-block;
+}
+
+.sugestion-name{
+    padding-top: 3px;
+}
+
+.sugestion a{
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 14px;
+    color: #232323;
+    font-weight: bold;
 }
